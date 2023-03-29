@@ -12,7 +12,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import { useSelector, useDispatch } from "react-redux";
 import IconButton from "@mui/material/IconButton";
 import Paper from "@mui/material/Paper";
-import { searchValue } from "../redux/videoSlice.js";
+import { fetchSearchedVideos } from "../redux/videoSlice.js";
 
 const StyledToolbar = styled(Toolbar)({
   display: "flex",
@@ -32,7 +32,7 @@ export default function Navbar() {
   const [searchVal, setSearchval] = useState();
 
   function handleSearchClick() {
-    dispatch(searchValue(searchVal));
+    dispatch(fetchSearchedVideos(searchVal));
   }
 
   const { currentUser } = useSelector((state) => state.user);
@@ -47,10 +47,6 @@ export default function Navbar() {
           >
             YouTube
           </Typography>
-          <YouTubeIcon
-            fontSize="large"
-            sx={{ display: { xs: "block", sm: "none" } }}
-          />
         </Box>
         <Paper
           component="form"

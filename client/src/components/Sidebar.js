@@ -48,6 +48,7 @@ const Sidebar = () => {
               <ListItemText primary="Subscriptions" />
             </ListItemButton>
           </ListItem>
+
           <Divider sx={{ backgroundColor: "white" }} />
           <ListItem disablePadding>
             <ListItemButton>
@@ -68,11 +69,18 @@ const Sidebar = () => {
           <ListItem disablePadding>
             <ListItemButton>
               <ListItemIcon>
-                <SportsEsportsIcon sx={{ color: "white" }} />
+                <SportsEsportsIcon
+                  sx={{ color: "white" }}
+                  value="Gaming"
+                  onClick={(e) => {
+                    console.log(e);
+                  }}
+                />
               </ListItemIcon>
               <ListItemText primary="Gaming" />
             </ListItemButton>
           </ListItem>
+
           <Divider sx={{ backgroundColor: "white" }} />
           <ListItem disablePadding>
             <ListItemButton>
