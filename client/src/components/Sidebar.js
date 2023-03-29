@@ -15,6 +15,9 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import FlagIcon from "@mui/icons-material/Flag";
 import Switch from "@mui/material/Switch";
 import FormControlLabel from "@mui/material/FormControlLabel";
+import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
+import AudiotrackIcon from "@mui/icons-material/Audiotrack";
+import SportsEsportsIcon from "@mui/icons-material/SportsEsports";
 
 const Sidebar = () => {
   return (
@@ -43,6 +46,31 @@ const Sidebar = () => {
                 <SubscriptionsIcon sx={{ color: "white" }} />
               </ListItemIcon>
               <ListItemText primary="Subscriptions" />
+            </ListItemButton>
+          </ListItem>
+          <Divider sx={{ backgroundColor: "white" }} />
+          <ListItem disablePadding>
+            <ListItemButton>
+              <ListItemIcon>
+                <EmojiEventsIcon sx={{ color: "white" }} />
+              </ListItemIcon>
+              <ListItemText primary="Sports" />
+            </ListItemButton>
+          </ListItem>
+          <ListItem disablePadding>
+            <ListItemButton>
+              <ListItemIcon>
+                <AudiotrackIcon sx={{ color: "white" }} />
+              </ListItemIcon>
+              <ListItemText primary="Music" />
+            </ListItemButton>
+          </ListItem>
+          <ListItem disablePadding>
+            <ListItemButton>
+              <ListItemIcon>
+                <SportsEsportsIcon sx={{ color: "white" }} />
+              </ListItemIcon>
+              <ListItemText primary="Gaming" />
             </ListItemButton>
           </ListItem>
           <Divider sx={{ backgroundColor: "white" }} />

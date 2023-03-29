@@ -6,9 +6,13 @@ import {
   Box,
   InputBase,
 } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 import YouTubeIcon from "@mui/icons-material/YouTube";
-import { useSelector } from "react-redux";
+import SearchIcon from "@mui/icons-material/Search";
+import { useSelector, useDispatch } from "react-redux";
+import IconButton from "@mui/material/IconButton";
+import Paper from "@mui/material/Paper";
+import { searchValue } from "../redux/videoSlice.js";
 
 const StyledToolbar = styled(Toolbar)({
   display: "flex",
@@ -23,9 +27,15 @@ const Search = styled("div")(({ theme }) => ({
   width: "40%",
 }));
 
-const Navbar = () => {
+export default function Navbar() {
+  const dispatch = useDispatch();
+  const [searchVal, setSearchval] = useState();
+
+  function handleSearchClick() {
+    dispatch(searchValue(searchVal));
+  }
+
   const { currentUser } = useSelector((state) => state.user);
-  console.log(currentUser);
   return (
     <AppBar position="sticky">
       <StyledToolbar>
@@ -42,13 +52,32 @@ const Navbar = () => {
             sx={{ display: { xs: "block", sm: "none" } }}
           />
         </Box>
-        <Search>
-          <InputBase placeholder="search..."></InputBase>
-        </Search>
+        <Paper
+          component="form"
+          sx={{
+            p: "2px 4px",
+            display: "flex",
+            alignItems: "center",
+            width: 400,
+          }}
+        >
+          <InputBase
+            sx={{ ml: 1, flex: 1 }}
+            placeholder="Search..."
+            inputProps={{ "aria-label": "search google maps" }}
+            onChange={(e) => setSearchval(e.target.value)}
+          />
+          <IconButton
+            type="button"
+            sx={{ p: "10px" }}
+            aria-label="search"
+            onClick={handleSearchClick}
+          >
+            <SearchIcon />
+          </IconButton>
+        </Paper>
         <Typography>{currentUser ? currentUser.username : "Test"}</Typography>
       </StyledToolbar>
     </AppBar>
   );
-};
-
-export default Navbar;
+}
