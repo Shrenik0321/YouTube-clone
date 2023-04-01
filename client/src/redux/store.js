@@ -17,6 +17,7 @@ const persistConfig = {
   key: "root",
   version: 1,
   storage,
+  whitelist: ["user"], // Only persist the user slice
 };
 
 const rootReducer = combineReducers({ user: userReducer, video: videoReducer });

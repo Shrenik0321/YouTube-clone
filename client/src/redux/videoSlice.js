@@ -1,8 +1,7 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { fetchFromApi } from "../fetchFromApi.js";
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  currentSearchValue: {},
+  currentSearchValue: "New",
 };
 
 export const videoSlice = createSlice({
