@@ -11,11 +11,13 @@ import Container from "@mui/material/Container";
 import Axios from "../axios.js";
 import { useDispatch } from "react-redux";
 import { loginFailure, loginStart, loginSuccess } from "../redux/userSlice.js";
+import { useNavigate } from "react-router-dom";
 
 export default function SignIn() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   async function handleSignIn(e) {
     e.preventDefault();
@@ -28,7 +30,8 @@ export default function SignIn() {
       });
       localStorage.setItem("access_token", response.data.access_token);
       dispatch(loginSuccess(response.data));
-      window.location.href = "/home";
+      navigate("/home");
+      window.location.reload();
     } catch (err) {
       dispatch(loginFailure());
       console.error(err.response.data);

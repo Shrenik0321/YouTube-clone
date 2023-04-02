@@ -1,4 +1,3 @@
-import { Box } from "@mui/system";
 import "./App.css";
 import Home from "./pages/Home";
 import SignIn from "./pages/SignIn";
@@ -7,16 +6,16 @@ import SignUp from "./pages/SignUp";
 import VideoDetail from "./pages/VideoDetail";
 
 function App() {
+  const isAuthorised = localStorage.getItem("access_token");
+
   return (
     <BrowserRouter>
-      <Box>
-        <Routes>
-          <Route path="/" element={<SignIn />} />
-          <Route path="/home" element={<Home />} />
-          <Route path="/signup" element={<SignUp />} />
-          <Route path="/video" element={<VideoDetail />} />
-        </Routes>
-      </Box>
+      <Routes>
+        <Route path="/" element={<SignIn />} />
+        {isAuthorised && <Route path="/home" element={<Home />} />}
+        {isAuthorised && <Route path="/video" element={<VideoDetail />} />}
+        <Route path="/signup" element={<SignUp />} />
+      </Routes>
     </BrowserRouter>
   );
 }

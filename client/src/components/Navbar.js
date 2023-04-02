@@ -13,6 +13,7 @@ import { useSelector, useDispatch } from "react-redux";
 import IconButton from "@mui/material/IconButton";
 import Paper from "@mui/material/Paper";
 import { fetchSearchedVideos } from "../redux/videoSlice.js";
+import { useNavigate } from "react-router-dom";
 
 const StyledToolbar = styled(Toolbar)({
   display: "flex",
@@ -29,6 +30,7 @@ const Search = styled("div")(({ theme }) => ({
 
 export default function Navbar() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [searchVal, setSearchval] = useState();
 
   function handleSearchClick() {
@@ -39,7 +41,12 @@ export default function Navbar() {
   return (
     <AppBar position="sticky">
       <StyledToolbar>
-        <Box sx={{ display: "flex", alignItems: "center" }}>
+        <Box
+          sx={{ display: "flex", alignItems: "center" }}
+          onClick={() => {
+            navigate("/home");
+          }}
+        >
           <YouTubeIcon fontSize="medium" sx={{ fontSize: 40, color: "red" }} />
           <Typography
             variant="h5"
