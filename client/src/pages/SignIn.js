@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
@@ -12,6 +12,7 @@ import Axios from "../axios.js";
 import { useDispatch } from "react-redux";
 import { loginFailure, loginStart, loginSuccess } from "../redux/userSlice.js";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export default function SignIn() {
   const [username, setUsername] = useState("");
@@ -19,9 +20,23 @@ export default function SignIn() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  // useEffect(() => {
+  //   window.onbeforeunload = function () {
+  //     localStorage.removeItem("access_token");
+  //   };
+  // }, []);
+
   async function handleSignIn(e) {
     e.preventDefault();
     dispatch(loginStart());
+
+    if (username == "") {
+      toast.error("Username not added!");
+    }
+
+    if (password == "") {
+      toast.error("Password not added!");
+    }
 
     try {
       const response = await Axios.post("/api/auth/signin", {
@@ -34,6 +49,7 @@ export default function SignIn() {
       window.location.reload();
     } catch (err) {
       dispatch(loginFailure());
+      toast.error(err.response.data.message);
       console.error(err.response.data);
     }
   }
@@ -64,6 +80,12 @@ export default function SignIn() {
             name="userName"
             autoComplete="userName"
             autoFocus
+            focused
+            InputProps={{
+              style: {
+                color: "white",
+              },
+            }}
             onChange={(e) => {
               setUsername(e.target.value);
             }}
@@ -77,6 +99,12 @@ export default function SignIn() {
             type="password"
             id="password"
             autoComplete="current-password"
+            focused
+            InputProps={{
+              style: {
+                color: "white",
+              },
+            }}
             onChange={(e) => {
               setPassword(e.target.value);
             }}

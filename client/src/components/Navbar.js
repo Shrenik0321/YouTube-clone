@@ -5,6 +5,7 @@ import {
   Typography,
   Box,
   InputBase,
+  Button,
 } from "@mui/material";
 import React, { useState } from "react";
 import YouTubeIcon from "@mui/icons-material/YouTube";
@@ -14,6 +15,7 @@ import IconButton from "@mui/material/IconButton";
 import Paper from "@mui/material/Paper";
 import { fetchSearchedVideos } from "../redux/videoSlice.js";
 import { useNavigate } from "react-router-dom";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
 const StyledToolbar = styled(Toolbar)({
   display: "flex",
@@ -37,6 +39,10 @@ export default function Navbar() {
     dispatch(fetchSearchedVideos(searchVal));
   }
 
+  function handleLogoutClick() {
+    navigate("/");
+  }
+
   const { currentUser } = useSelector((state) => state.user);
   return (
     <AppBar position="sticky">
@@ -52,7 +58,7 @@ export default function Navbar() {
             variant="h5"
             sx={{ display: { xs: "none", sm: "block" } }}
           >
-            YouTube
+            DeepTube
           </Typography>
         </Box>
         <Paper
@@ -79,7 +85,21 @@ export default function Navbar() {
             <SearchIcon />
           </IconButton>
         </Paper>
-        <Typography>{currentUser ? currentUser.username : "Test"}</Typography>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            width: "250px",
+          }}
+        >
+          <AccountCircleIcon sx={{ fontSize: "40px" }} />
+          <Typography sx={{ fontSize: "25px" }}>
+            {currentUser ? currentUser.username : "Test"}
+          </Typography>
+          <Button variant="contained" onClick={handleLogoutClick}>
+            Logout
+          </Button>
+        </Box>
       </StyledToolbar>
     </AppBar>
   );

@@ -13,6 +13,8 @@ import Axios from "../axios.js";
 export default function SignUp() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [userNameError, setUsernameError] = useState(false);
+  const [passwordError, setPasswordError] = useState(false);
 
   async function handleSignUp(e) {
     e.preventDefault();
@@ -22,6 +24,7 @@ export default function SignUp() {
         password,
       });
       console.log(response);
+      window.location.reload();
     } catch (err) {
       console.error(err.response.data);
     }
@@ -53,6 +56,13 @@ export default function SignUp() {
             name="userName"
             autoComplete="userName"
             autoFocus
+            focused
+            error={userNameError}
+            InputProps={{
+              style: {
+                color: "white",
+              },
+            }}
             onChange={(e) => {
               setUsername(e.target.value);
             }}
@@ -66,6 +76,13 @@ export default function SignUp() {
             type="password"
             id="password"
             autoComplete="current-password"
+            focused
+            error={passwordError}
+            InputProps={{
+              style: {
+                color: "white",
+              },
+            }}
             onChange={(e) => {
               setPassword(e.target.value);
             }}

@@ -14,7 +14,7 @@ const VideoDetail = () => {
   const { state } = useLocation();
   const video = state.video;
   return (
-    <Box backgroundColor="black">
+    <Box>
       <Navbar />
       <Grid container spacing={2}>
         <VideoTab video={video} />

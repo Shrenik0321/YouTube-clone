@@ -51,10 +51,9 @@ export default function SuggestionsBar() {
           sx={{ pb: "50px", backgroundColor: "black", color: "white" }}
         >
           <Typography
-            variant="h4"
             gutterBottom
             component="div"
-            sx={{ p: 2, pb: 0 }}
+            sx={{ p: 2, pb: 0, fontSize: "30px" }}
           >
             Suggested Videos
           </Typography>
@@ -62,13 +61,25 @@ export default function SuggestionsBar() {
             {suggestedVideo.map((data, index) => (
               <React.Fragment key={index}>
                 <ListItem>
-                  <Card sx={{ backgroundColor: "black" }} key={index}>
+                  <Card
+                    sx={{
+                      backgroundColor: "#27272a",
+                      width: "350px",
+                      height: "350px",
+                    }}
+                    key={index}
+                  >
                     <CardMedia
                       component="img"
                       height="194"
                       image={data.snippet.thumbnails.high.url}
-                      alt="Paella dish"
                     />
+                    {/* <CardMedia
+                      component="img"
+                      height="194"
+                      image="/static/images/cards/contemplative-reptile.jpg"
+                      alt="Paella dish"
+                    /> */}
                     <CardContent>
                       <Typography color="white" sx={{ fontSize: "18px" }}>
                         {data.snippet.title}

@@ -34,7 +34,7 @@ const Feed = () => {
   }, [search]);
 
   return (
-    <Box backgroundColor="black" flex={6} p={2}>
+    <Box flex={6} p={2}>
       <Grid container spacing={2} columns={24}>
         {video.map((video, index) => (
           <Grid item xs={8}>

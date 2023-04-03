@@ -35,7 +35,7 @@ const Sidebar = () => {
   }, [searchButton]);
 
   return (
-    <Box sx={{ backgroundColor: "black", color: "white" }} flex={1} p={2}>
+    <Box flex={1} p={2}>
       <nav>
         <List>
           <ListItem disablePadding>
