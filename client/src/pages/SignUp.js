@@ -9,6 +9,7 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import Axios from "../axios.js";
+import { toast } from "react-toastify";
 
 export default function SignUp() {
   const [username, setUsername] = useState("");
@@ -18,6 +19,15 @@ export default function SignUp() {
 
   async function handleSignUp(e) {
     e.preventDefault();
+
+    if (username == "") {
+      toast.error("Username not entered!");
+    }
+
+    if (password == "") {
+      toast.error("Password not entered!");
+    }
+
     try {
       const response = await Axios.post("/api/auth/signup", {
         username,
@@ -25,6 +35,7 @@ export default function SignUp() {
       });
       console.log(response);
       window.location.reload();
+      toast.success("Successfully signed new user!");
     } catch (err) {
       console.error(err.response.data);
     }
@@ -40,7 +51,7 @@ export default function SignUp() {
           alignItems: "center",
         }}
       >
-        <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+        <Avatar sx={{ m: 1, bgcolor: "red" }}>
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">

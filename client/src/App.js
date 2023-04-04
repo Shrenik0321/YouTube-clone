@@ -14,8 +14,10 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<SignIn />} />
-          {isAuthorised && <Route path="/home" element={<Home />} />}
-          {isAuthorised && <Route path="/video" element={<VideoDetail />} />}
+          {isAuthorised && <Route path="/home/:id" element={<Home />} />}
+          {isAuthorised && (
+            <Route path="/video/:id/:videoId" element={<VideoDetail />} />
+          )}
           <Route path="/signup" element={<SignUp />} />
         </Routes>
       </BrowserRouter>

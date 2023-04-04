@@ -1,8 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Grid } from "@mui/material";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemText from "@mui/material/ListItemText";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
@@ -10,26 +7,30 @@ import { fetchFromApi } from "../fetchFromApi.js";
 import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
+import { useSelector } from "react-redux";
 
 export default function SuggestionsBar() {
+  const { currentSuggestedSearchValue } = useSelector((state) => state.video);
   const [suggestedVideo, setSuggestedVideo] = useState([]);
+  const [suggestedSearch, setSuggestedSearch] = useState("Messi");
+
+  useEffect(() => {
+    setSuggestedSearch(currentSuggestedSearchValue);
+  }, [currentSuggestedSearchValue]);
 
   useEffect(() => {
     async function fetchVideos() {
       try {
         const response = await fetchFromApi(
-          `search?part=snippet&q=${"Suggestions"}`
+          `search?part=snippet&q=${suggestedSearch}`
         );
-        console.log(response);
         setSuggestedVideo(response);
       } catch (err) {
         console.error(err);
       }
     }
     fetchVideos();
-  }, []);
-
-  console.log(suggestedVideo);
+  }, [suggestedSearch]);
 
   return (
     <Grid x item xs={3}>
@@ -47,8 +48,13 @@ export default function SuggestionsBar() {
         }}
       >
         <Paper
-          square
-          sx={{ pb: "50px", backgroundColor: "black", color: "white" }}
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            pb: "50px",
+            backgroundColor: "black",
+            color: "white",
+          }}
         >
           <Typography
             gutterBottom
@@ -57,45 +63,34 @@ export default function SuggestionsBar() {
           >
             Suggested Videos
           </Typography>
-          <List sx={{ mb: 2 }}>
-            {suggestedVideo.map((data, index) => (
-              <React.Fragment key={index}>
-                <ListItem>
-                  <Card
-                    sx={{
-                      backgroundColor: "#27272a",
-                      width: "350px",
-                      height: "350px",
-                    }}
-                    key={index}
-                  >
-                    <CardMedia
-                      component="img"
-                      height="194"
-                      image={data.snippet.thumbnails.high.url}
-                    />
-                    {/* <CardMedia
-                      component="img"
-                      height="194"
-                      image="/static/images/cards/contemplative-reptile.jpg"
-                      alt="Paella dish"
-                    /> */}
-                    <CardContent>
-                      <Typography color="white" sx={{ fontSize: "18px" }}>
-                        {data.snippet.title}
-                      </Typography>
-                      <Typography
-                        color="white"
-                        sx={{ fontSize: "15px", color: "#d1d5db" }}
-                      >
-                        {data.snippet.channelTitle}
-                      </Typography>
-                    </CardContent>
-                  </Card>
-                </ListItem>
-              </React.Fragment>
-            ))}
-          </List>
+          {suggestedVideo.map((data, index) => (
+            <Card
+              key={index}
+              sx={{
+                backgroundColor: "#27272a",
+                width: "300px",
+                height: "300px",
+                color: "white",
+                marginBottom: "20px",
+              }}
+            >
+              <CardMedia
+                sx={{ height: 172 }}
+                image={data.snippet.thumbnails.high.url}
+              />
+              <CardContent>
+                <Typography color="white" sx={{ fontSize: "18px" }}>
+                  {data.snippet.title}
+                </Typography>
+                <Typography
+                  color="white"
+                  sx={{ fontSize: "15px", color: "#d1d5db" }}
+                >
+                  {data.snippet.channelTitle}
+                </Typography>
+              </CardContent>
+            </Card>
+          ))}
         </Paper>
       </Box>
     </Grid>

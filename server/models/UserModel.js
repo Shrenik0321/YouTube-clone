@@ -12,14 +12,7 @@ const UserSchema = new mongoose.Schema(
       required: true,
       unique: true,
     },
-    img: {
-      type: String,
-    },
-    subscribers: {
-      type: Number,
-      default: 0,
-    },
-    subscribedUsers: {
+    subscribedChannels: {
       type: [String],
     },
     fromGoogle: {

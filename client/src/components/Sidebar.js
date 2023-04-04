@@ -13,13 +13,18 @@ import ExploreIcon from "@mui/icons-material/Explore";
 import SubscriptionsIcon from "@mui/icons-material/Subscriptions";
 import SettingsIcon from "@mui/icons-material/Settings";
 import FlagIcon from "@mui/icons-material/Flag";
-import Switch from "@mui/material/Switch";
-import FormControlLabel from "@mui/material/FormControlLabel";
 import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
 import AudiotrackIcon from "@mui/icons-material/Audiotrack";
 import SportsEsportsIcon from "@mui/icons-material/SportsEsports";
+import SmartDisplayIcon from "@mui/icons-material/SmartDisplay";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { fetchSearchedVideos } from "../redux/videoSlice.js";
-import { useSelector, useDispatch } from "react-redux";
+import Accordion from "@mui/material/Accordion";
+import AccordionSummary from "@mui/material/AccordionSummary";
+import AccordionDetails from "@mui/material/AccordionDetails";
+import Typography from "@mui/material/Typography";
+import { useDispatch } from "react-redux";
+import { Grid, Paper } from "@mui/material";
 
 const Sidebar = () => {
   const [searchButton, setSearchButton] = useState("");
@@ -35,98 +40,155 @@ const Sidebar = () => {
   }, [searchButton]);
 
   return (
-    <Box flex={1} p={2}>
-      <nav>
-        <List>
-          <ListItem disablePadding>
-            <ListItemButton onClick={handleClick}>
-              <ListItemIcon>
-                <HomeIcon sx={{ color: "white" }} />
-              </ListItemIcon>
-              <ListItemText primary="Home" />
-            </ListItemButton>
-          </ListItem>
-          <ListItem disablePadding>
-            <ListItemButton onClick={handleClick}>
-              <ListItemIcon>
-                <ExploreIcon sx={{ color: "white" }} />
-              </ListItemIcon>
-              <ListItemText primary="Explore" />
-            </ListItemButton>
-          </ListItem>
-          <ListItem disablePadding>
-            <ListItemButton onClick={handleClick}>
-              <ListItemIcon>
-                <SubscriptionsIcon sx={{ color: "white" }} />
-              </ListItemIcon>
-              <ListItemText primary="Subscriptions" />
-            </ListItemButton>
-          </ListItem>
+    <Grid x item xs={2}>
+      <Box
+        sx={{
+          maxHeight: "85vh",
+          overflow: "auto",
+          "&::-webkit-scrollbar": {
+            width: "2px",
+          },
+        }}
+      >
+        <Paper
+          square
+          sx={{ pb: "50px", backgroundColor: "black", color: "white" }}
+        >
+          <List>
+            <ListItem disablePadding>
+              <ListItemButton>
+                <ListItemIcon>
+                  <HomeIcon sx={{ color: "white" }} />
+                </ListItemIcon>
+                <ListItemText primary="Home" />
+              </ListItemButton>
+            </ListItem>
+            <ListItem disablePadding>
+              <ListItemButton>
+                <ListItemIcon>
+                  <ExploreIcon sx={{ color: "white" }} />
+                </ListItemIcon>
+                <ListItemText primary="Explore" />
+              </ListItemButton>
+            </ListItem>
+            <ListItem disablePadding>
+              <Accordion sx={{ backgroundColor: "black", color: "white" }}>
+                <AccordionSummary>
+                  <ListItemIcon>
+                    <SubscriptionsIcon sx={{ color: "white" }} />
+                  </ListItemIcon>
+                  <ListItemText primary="Subscriptions" />
+                  <ListItemIcon>
+                    <ExpandMoreIcon sx={{ color: "white" }} />
+                  </ListItemIcon>
+                </AccordionSummary>
+                <AccordionDetails>
+                  <List>
+                    <ListItem>
+                      <Typography>Subscription 1</Typography>
+                    </ListItem>
+                    <ListItem>
+                      <Typography>Subscription 2</Typography>
+                    </ListItem>
+                    <ListItem>
+                      <Typography>Subscription 3</Typography>
+                    </ListItem>
+                  </List>
+                </AccordionDetails>
+              </Accordion>
+            </ListItem>
 
-          <Divider sx={{ backgroundColor: "white" }} />
-          <ListItem disablePadding>
-            <ListItemButton onClick={handleClick}>
-              <ListItemIcon>
-                <EmojiEventsIcon sx={{ color: "white" }} />
-              </ListItemIcon>
-              <ListItemText primary="Sports" />
-            </ListItemButton>
-          </ListItem>
-          <ListItem disablePadding>
-            <ListItemButton onClick={handleClick}>
-              <ListItemIcon>
-                <AudiotrackIcon sx={{ color: "white" }} />
-              </ListItemIcon>
-              <ListItemText primary="Music" />
-            </ListItemButton>
-          </ListItem>
-          <ListItem disablePadding>
-            <ListItemButton onClick={handleClick}>
-              <ListItemIcon>
-                <SportsEsportsIcon sx={{ color: "white" }} value="Gaming" />
-              </ListItemIcon>
-              <ListItemText primary="Gaming" />
-            </ListItemButton>
-          </ListItem>
+            <Divider sx={{ backgroundColor: "white" }} />
+            <ListItem disablePadding>
+              <ListItemButton onClick={handleClick}>
+                <ListItemIcon>
+                  <EmojiEventsIcon sx={{ color: "white" }} />
+                </ListItemIcon>
+                <ListItemText primary="Sports" />
+              </ListItemButton>
+            </ListItem>
+            <ListItem disablePadding>
+              <ListItemButton onClick={handleClick}>
+                <ListItemIcon>
+                  <AudiotrackIcon sx={{ color: "white" }} />
+                </ListItemIcon>
+                <ListItemText primary="Music" />
+              </ListItemButton>
+            </ListItem>
+            <ListItem disablePadding>
+              <ListItemButton onClick={handleClick}>
+                <ListItemIcon>
+                  <SportsEsportsIcon sx={{ color: "white" }} value="Gaming" />
+                </ListItemIcon>
+                <ListItemText primary="Gaming" />
+              </ListItemButton>
+            </ListItem>
+            <ListItem disablePadding>
+              <Accordion sx={{ backgroundColor: "black", color: "white" }}>
+                <AccordionSummary>
+                  <ListItemIcon>
+                    <SmartDisplayIcon sx={{ color: "white" }} />
+                  </ListItemIcon>
+                  <ListItemText primary="Channels" />
+                  <ListItemIcon>
+                    <ExpandMoreIcon sx={{ color: "white" }} />
+                  </ListItemIcon>
+                </AccordionSummary>
+                <AccordionDetails>
+                  <List>
+                    <ListItem>
+                      <Typography>Channel 1</Typography>
+                    </ListItem>
+                    <ListItem>
+                      <Typography>Channel 2</Typography>
+                    </ListItem>
+                    <ListItem>
+                      <Typography>Channel 3</Typography>
+                    </ListItem>
+                  </List>
+                </AccordionDetails>
+              </Accordion>
+            </ListItem>
 
-          <Divider sx={{ backgroundColor: "white" }} />
-          <ListItem disablePadding>
-            <ListItemButton onClick={handleClick}>
-              <ListItemIcon>
-                <VideoLibraryIcon sx={{ color: "white" }} />
-              </ListItemIcon>
-              <ListItemText primary="Libraries" />
-            </ListItemButton>
-          </ListItem>
-          <ListItem disablePadding>
-            <ListItemButton onClick={handleClick}>
-              <ListItemIcon>
-                <HistoryIcon sx={{ color: "white" }} />
-              </ListItemIcon>
-              <ListItemText primary="History" />
-            </ListItemButton>
-          </ListItem>
-          <Divider sx={{ backgroundColor: "white" }} />
-          <ListItem disablePadding>
-            <ListItemButton onClick={handleClick}>
-              <ListItemIcon>
-                <SettingsIcon sx={{ color: "white" }} />
-              </ListItemIcon>
-              <ListItemText primary="Settings" />
-            </ListItemButton>
-          </ListItem>
-          <ListItem disablePadding>
-            <ListItemButton onClick={handleClick}>
-              <ListItemIcon>
-                <FlagIcon sx={{ color: "white" }} />
-              </ListItemIcon>
-              <ListItemText primary="Report" />
-            </ListItemButton>
-          </ListItem>
-          <FormControlLabel disabled control={<Switch />} label="Light" />
-        </List>
-      </nav>
-    </Box>
+            <Divider sx={{ backgroundColor: "white" }} />
+            <ListItem disablePadding>
+              <ListItemButton>
+                <ListItemIcon>
+                  <VideoLibraryIcon sx={{ color: "white" }} />
+                </ListItemIcon>
+                <ListItemText primary="Libraries" />
+              </ListItemButton>
+            </ListItem>
+            <ListItem disablePadding>
+              <ListItemButton>
+                <ListItemIcon>
+                  <HistoryIcon sx={{ color: "white" }} />
+                </ListItemIcon>
+                <ListItemText primary="History" />
+              </ListItemButton>
+            </ListItem>
+
+            <Divider sx={{ backgroundColor: "white" }} />
+            <ListItem disablePadding>
+              <ListItemButton>
+                <ListItemIcon>
+                  <SettingsIcon sx={{ color: "white" }} />
+                </ListItemIcon>
+                <ListItemText primary="Settings" />
+              </ListItemButton>
+            </ListItem>
+            <ListItem disablePadding>
+              <ListItemButton>
+                <ListItemIcon>
+                  <FlagIcon sx={{ color: "white" }} />
+                </ListItemIcon>
+                <ListItemText primary="Report" />
+              </ListItemButton>
+            </ListItem>
+          </List>
+        </Paper>
+      </Box>
+    </Grid>
   );
 };
 

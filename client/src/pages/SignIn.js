@@ -9,21 +9,21 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import Axios from "../axios.js";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { loginFailure, loginStart, loginSuccess } from "../redux/userSlice.js";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 export default function SignIn() {
+  const { currentUser } = useSelector((state) => state.user);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  // An issue each time the user logsout the page has to be refreshed inorder for the userId to change in the route
   // useEffect(() => {
-  //   window.onbeforeunload = function () {
-  //     localStorage.removeItem("access_token");
-  //   };
+  //   window.location.reload();
   // }, []);
 
   async function handleSignIn(e) {
@@ -31,11 +31,11 @@ export default function SignIn() {
     dispatch(loginStart());
 
     if (username == "") {
-      toast.error("Username not added!");
+      toast.error("Username not entered!");
     }
 
     if (password == "") {
-      toast.error("Password not added!");
+      toast.error("Password not entered!");
     }
 
     try {
@@ -43,9 +43,16 @@ export default function SignIn() {
         username,
         password,
       });
-      localStorage.setItem("access_token", response.data.access_token);
+      const expirationDate = new Date().getTime() + 3600 * 1000;
+      const tokenObject = {
+        userId: response.data._id,
+        token: response.data.access_token,
+        expiresAt: expirationDate,
+      };
+      localStorage.setItem("access_token", JSON.stringify(tokenObject));
       dispatch(loginSuccess(response.data));
-      navigate("/home");
+      const userId = currentUser._id;
+      navigate(`/home/${userId}`);
       window.location.reload();
     } catch (err) {
       dispatch(loginFailure());

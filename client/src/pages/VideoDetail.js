@@ -4,7 +4,7 @@ import { Grid } from "@mui/material";
 import Card from "@mui/material/Card";
 import Box from "@mui/material/Box";
 import CardMedia from "@mui/material/CardMedia";
-import Navbar from "../components/Navbar";
+import Navbar2 from "../components/Navbar2";
 import SuggestionsBar from "../components/SuggestionsBar";
 import { useLocation } from "react-router-dom";
 import { Stack } from "@mui/system";
@@ -15,7 +15,7 @@ const VideoDetail = () => {
   const video = state.video;
   return (
     <Box>
-      <Navbar />
+      <Navbar2 />
       <Grid container spacing={2}>
         <VideoTab video={video} />
         <SuggestionsBar />

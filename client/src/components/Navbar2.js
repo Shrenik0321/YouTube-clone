@@ -10,36 +10,28 @@ import {
 import React, { useState } from "react";
 import YouTubeIcon from "@mui/icons-material/YouTube";
 import SearchIcon from "@mui/icons-material/Search";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import IconButton from "@mui/material/IconButton";
 import Paper from "@mui/material/Paper";
-import { fetchSearchedVideos } from "../redux/videoSlice.js";
+import { fetchSuggestedSearchVideos } from "../redux/videoSlice.js";
 import { useNavigate } from "react-router-dom";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { useParams } from "react-router-dom";
 
 const StyledToolbar = styled(Toolbar)({
   display: "flex",
   justifyContent: "space-between",
-  backgroundColor: "#18181b",
+  backgroundColor: "black",
 });
 
-export default function Navbar() {
+export default function Navbar2() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { id } = useParams();
-  const [searchVal, setSearchval] = useState();
+  const [searchVal, setSearchval] = useState("");
 
   function handleSearchClick() {
-    dispatch(fetchSearchedVideos(searchVal));
+    dispatch(fetchSuggestedSearchVideos(searchVal));
   }
-
-  function handleLogoutClick() {
-    localStorage.removeItem("access_token");
-    navigate("/");
-  }
-
-  const { currentUser } = useSelector((state) => state.user);
   return (
     <AppBar position="sticky">
       <StyledToolbar>
@@ -82,25 +74,6 @@ export default function Navbar() {
             <SearchIcon />
           </IconButton>
         </Paper>
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            width: "250px",
-          }}
-        >
-          <AccountCircleIcon sx={{ fontSize: "40px" }} />
-          <Typography sx={{ fontSize: "25px" }}>
-            {currentUser ? currentUser.username : "Test"}
-          </Typography>
-          <Button
-            variant="contained"
-            sx={{ backgroundColor: "red" }}
-            onClick={handleLogoutClick}
-          >
-            Logout
-          </Button>
-        </Box>
       </StyledToolbar>
     </AppBar>
   );

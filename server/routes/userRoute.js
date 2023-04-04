@@ -1,8 +1,7 @@
 import express from "express";
 import {
-  update,
+  updateUsername,
   deleteUser,
-  getUser,
   subscribe,
   unsubscribe,
   like,
@@ -12,19 +11,17 @@ import { verifyToken } from "../verifyToken.js";
 
 const router = express.Router();
 
-//update user
-router.put("/:id", verifyToken, update);
+//update username
+router.put("/:id", verifyToken, updateUsername);
 
 //delete user
 router.delete("/:id", verifyToken, deleteUser);
 
-//get a user
-router.get("/find/:id", getUser);
+//subscribe to a channel
+// router.post("/sub/:id", verifyToken, subscribe);
+router.post("/sub/:id", subscribe);
 
-//subscribe a user
-router.put("/sub/:id", verifyToken, subscribe);
-
-//unsubscribe a user
+//unsubscribe a channel
 router.put("/unsub/:id", verifyToken, unsubscribe);
 
 //like a video

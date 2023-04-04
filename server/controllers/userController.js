@@ -1,7 +1,7 @@
 import { createError } from "../error.js";
 import UserModel from "../models/UserModel.js";
 
-export const update = async (req, res) => {
+export const updateUsername = async (req, res) => {
   if (req.params.id === req.userId) {
     try {
       await UserModel.findByIdAndUpdate(
@@ -42,6 +42,7 @@ export const getUser = async (req, res) => {
 };
 
 export const subscribe = async (req, res) => {
+  console.log("Hello world");
   res.send("Running!");
   // if (req.params.id === req.userId) {
   //   try {

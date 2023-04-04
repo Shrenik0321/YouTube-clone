@@ -2,17 +2,16 @@ import React from "react";
 import Sidebar from "../components/Sidebar";
 import Navbar from "../components/Navbar";
 import Feed from "../components/Feed";
-import { Box } from "@mui/material";
-import { Stack } from "@mui/system";
+import { Box, Grid } from "@mui/material";
 
 const Home = () => {
   return (
     <Box>
       <Navbar />
-      <Stack direction="row" justifyContent="space-between">
+      <Grid container spacing={2}>
         <Sidebar />
         <Feed />
-      </Stack>
+      </Grid>
     </Box>
   );
 };

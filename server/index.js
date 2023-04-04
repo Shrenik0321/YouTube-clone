@@ -2,7 +2,6 @@ import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import userRoutes from "./routes/userRoute.js";
-import commentRoutes from "./routes/commentRoute.js";
 import authRoutes from "./routes/authRoute.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
@@ -25,7 +24,6 @@ app.use(express.json());
 app.use(cookieParser());
 app.use("/api/auth", authRoutes);
 app.use("/api/user", userRoutes);
-app.use("/api/comment", commentRoutes);
 
 app.use((err, req, res, next) => {
   const status = err.status || 500;
