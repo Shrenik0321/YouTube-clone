@@ -13,6 +13,7 @@ export const signUp = async (req, res, next) => {
     await newUser.save();
     res.status(200).send("User has been created!");
   } catch (err) {
+    console.error(err)
     // The next function runs all the available middlewares after this piece of code
     next(err);
   }

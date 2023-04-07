@@ -2,7 +2,8 @@ import express from "express";
 import {
   updateUsername,
   deleteUser,
-  subscribe,
+  addsubscribedChannels,
+  getsubscribedChannels,
   unsubscribe,
   like,
   dislike,
@@ -19,10 +20,14 @@ router.delete("/:id", verifyToken, deleteUser);
 
 //subscribe to a channel
 // router.post("/sub/:id", verifyToken, subscribe);
-router.post("/sub/:id", subscribe);
+router.post("/sub/:id", addsubscribedChannels);
+
+//get subscribed channels
+router.post("/getsub/:id", getsubscribedChannels);
 
 //unsubscribe a channel
-router.put("/unsub/:id", verifyToken, unsubscribe);
+// router.post("/unsub/:id", verifyToken, unsubscribe);
+router.post("/unsub/:id", unsubscribe);
 
 //like a video
 router.put("/like/:videoId", verifyToken, like);

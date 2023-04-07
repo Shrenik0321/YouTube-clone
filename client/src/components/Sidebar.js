@@ -24,20 +24,37 @@ import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import Typography from "@mui/material/Typography";
 import { useDispatch } from "react-redux";
-import { Grid, Paper } from "@mui/material";
+import { Button, Grid, Paper } from "@mui/material";
+import Axios from "../axios.js";
+import { useParams } from "react-router-dom";
 
 const Sidebar = () => {
+  const { id } = useParams();
   const [searchButton, setSearchButton] = useState("");
+  const [subscribedChannelsList, setSubscribedChannelsList] = useState([]);
   const dispatch = useDispatch();
 
   function handleClick(e) {
     setSearchButton(e.target.textContent);
-    console.log(searchButton);
   }
 
   useEffect(() => {
     dispatch(fetchSearchedVideos(searchButton));
   }, [searchButton]);
+
+  useEffect(() => {
+    async function fetchSubscribedChannels() {
+      try {
+        const subscribedChannels = await Axios.post(`/api/user/getsub/${id}`, {
+          id: id,
+        });
+        setSubscribedChannelsList(subscribedChannels.data);
+      } catch (err) {
+        console.error(err);
+      }
+    }
+    fetchSubscribedChannels();
+  }, []);
 
   return (
     <Grid x item xs={2}>
@@ -52,18 +69,36 @@ const Sidebar = () => {
       >
         <Paper
           square
-          sx={{ pb: "50px", backgroundColor: "black", color: "white" }}
+          sx={{
+            pb: "50px",
+            backgroundColor: "black",
+            color: "white",
+          }}
         >
           <List>
-            <ListItem disablePadding>
-              <ListItemButton>
+            <ListItem
+              disablePadding
+              sx={{
+                "&:hover": {
+                  backgroundColor: "red",
+                },
+              }}
+            >
+              <ListItemButton onClick={handleClick}>
                 <ListItemIcon>
                   <HomeIcon sx={{ color: "white" }} />
                 </ListItemIcon>
                 <ListItemText primary="Home" />
               </ListItemButton>
             </ListItem>
-            <ListItem disablePadding>
+            <ListItem
+              disablePadding
+              sx={{
+                "&:hover": {
+                  backgroundColor: "red",
+                },
+              }}
+            >
               <ListItemButton>
                 <ListItemIcon>
                   <ExploreIcon sx={{ color: "white" }} />
@@ -84,15 +119,11 @@ const Sidebar = () => {
                 </AccordionSummary>
                 <AccordionDetails>
                   <List>
-                    <ListItem>
-                      <Typography>Subscription 1</Typography>
-                    </ListItem>
-                    <ListItem>
-                      <Typography>Subscription 2</Typography>
-                    </ListItem>
-                    <ListItem>
-                      <Typography>Subscription 3</Typography>
-                    </ListItem>
+                    {subscribedChannelsList.map((data, index) => (
+                      <ListItem onClick={handleClick}>
+                        <Button>{data}</Button>
+                      </ListItem>
+                    ))}
                   </List>
                 </AccordionDetails>
               </Accordion>
@@ -136,14 +167,14 @@ const Sidebar = () => {
                 </AccordionSummary>
                 <AccordionDetails>
                   <List>
-                    <ListItem>
-                      <Typography>Channel 1</Typography>
+                    <ListItem onClick={handleClick}>
+                      <Button>Mr.Beast</Button>
                     </ListItem>
-                    <ListItem>
-                      <Typography>Channel 2</Typography>
+                    <ListItem onClick={handleClick}>
+                      <Button>Sidemen</Button>
                     </ListItem>
-                    <ListItem>
-                      <Typography>Channel 3</Typography>
+                    <ListItem onClick={handleClick}>
+                      <Button>Juice WRLD</Button>
                     </ListItem>
                   </List>
                 </AccordionDetails>
