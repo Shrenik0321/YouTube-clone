@@ -1,4 +1,5 @@
 import UserModel from "../models/UserModel.js";
+import GoogleUserModel from "../models/GoogleUserModel.js";
 import bcrypt from "bcrypt";
 import { createError } from "../error.js";
 import jwt from "jsonwebtoken";
@@ -7,13 +8,12 @@ export const signUp = async (req, res, next) => {
   try {
     const salt = bcrypt.genSaltSync(10);
     const hash = bcrypt.hashSync(req.body.password, salt);
-
     // UserModel is a mongoose model used to respresent a collection in the database. newUser is an instance of that model that represents a new document to be saved in to the database
     const newUser = new UserModel({ ...req.body, password: hash });
     await newUser.save();
     res.status(200).send("User has been created!");
   } catch (err) {
-    console.error(err)
+    console.error(err);
     // The next function runs all the available middlewares after this piece of code
     next(err);
   }
@@ -37,6 +37,31 @@ export const signIn = async (req, res, next) => {
       }
     }
   } catch (err) {
+    next(err);
+  }
+};
+
+export const signInWithGoogle = async (req, res, next) => {
+  try {
+    const user = await GoogleUserModel.find({ googleId: req.body._id });
+    let result;
+    if (user.length === 0) {
+      // If user has not signed up yet
+      result = new GoogleUserModel({
+        googleId: req.body._id,
+        username: req.body.username,
+        accessToken: req.body.access_token,
+      });
+      await result.save();
+    } else {
+      // If user has already signed up
+      let res = await GoogleUserModel.find({ googleId: req.body._id });
+      result = res[0];
+    }
+    return res.send(result);
+  } catch (err) {
+    console.error(err);
+    // The next function runs all the available middlewares after this piece of code
     next(err);
   }
 };

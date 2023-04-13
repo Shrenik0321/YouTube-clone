@@ -9,32 +9,48 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import Axios from "../axios.js";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { loginFailure, loginStart, loginSuccess } from "../redux/userSlice.js";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { auth, googleProvider } from "../firebase-config/firebase.js";
+import { signInWithPopup, onAuthStateChanged, signOut } from "firebase/auth";
 
 export default function SignIn() {
-  const { currentUser } = useSelector((state) => state.user);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [googleUser, setGoogleUser] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  // An issue each time the user logsout the page has to be refreshed inorder for the userId to change in the route
-  // useEffect(() => {
-  //   window.location.reload();
-  // }, []);
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUsers) => {
+      setGoogleUser(currentUsers);
+    });
+    return () => {
+      unsubscribe();
+    };
+  }, [googleUser]);
+
+  // Incase the user moves back.He wont be able to go back into the private pages
+  useEffect(() => {
+    const handleSignOut = () => {
+      signOut(auth).catch((error) => {
+        console.log(error);
+      });
+    };
+    handleSignOut();
+  }, []);
 
   async function handleSignIn(e) {
     e.preventDefault();
     dispatch(loginStart());
 
-    if (username == "") {
+    if (username === "") {
       toast.error("Username not entered!");
     }
 
-    if (password == "") {
+    if (password === "") {
       toast.error("Password not entered!");
     }
 
@@ -48,16 +64,55 @@ export default function SignIn() {
         userId: response.data._id,
         token: response.data.access_token,
         expiresAt: expirationDate,
+        fromGoogle: response.data.fromGoogle,
       };
       localStorage.setItem("access_token", JSON.stringify(tokenObject));
       dispatch(loginSuccess(response.data));
-      const userId = currentUser._id;
+      let userId = tokenObject.userId;
       navigate(`/home/${userId}`);
       window.location.reload();
     } catch (err) {
       dispatch(loginFailure());
       toast.error(err.response.data.message);
       console.error(err.response.data);
+    }
+  }
+
+  async function handleGoogleSignIn(e) {
+    e.preventDefault();
+    dispatch(loginStart());
+    try {
+      if (googleUser != null) {
+        console.log("Already signed in!");
+      } else {
+        // Dont have to worry about signing up because if it isnt, it will automatically get signed up. SignIns wont happen twice
+        console.log("First time signing in!");
+        const authResponse = await signInWithPopup(auth, googleProvider);
+        const data = {
+          _id: authResponse.user.uid,
+          username: authResponse.user.displayName,
+          access_token: authResponse._tokenResponse.oauthIdToken,
+        };
+        try {
+          const response = await Axios.post("/api/auth/google", data);
+          const expirationDate = new Date().getTime() + 3600 * 1000;
+          const tokenObject = {
+            userId: response.data.googleId,
+            token: response.data.accessToken,
+            expiresAt: expirationDate,
+            fromGoogle: response.data.fromGoogle,
+          };
+          localStorage.setItem("access_token", JSON.stringify(tokenObject));
+          dispatch(loginSuccess(response.data));
+          const userId = tokenObject.userId;
+          navigate(`/home/${userId}`);
+          window.location.reload();
+        } catch (err) {
+          console.error(err);
+        }
+      }
+    } catch (err) {
+      console.error(err);
     }
   }
 
@@ -125,7 +180,13 @@ export default function SignIn() {
           >
             Sign In
           </Button>
-          <Button type="submit" fullWidth variant="contained" sx={{ mb: 2 }}>
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            sx={{ mb: 2 }}
+            onClick={handleGoogleSignIn}
+          >
             Sign In with Google
           </Button>
           <Grid container>

@@ -17,6 +17,8 @@ import { fetchSearchedVideos } from "../redux/videoSlice.js";
 import { useNavigate } from "react-router-dom";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { useParams } from "react-router-dom";
+import { auth } from "../firebase-config/firebase.js";
+import { signOut } from "firebase/auth";
 
 const StyledToolbar = styled(Toolbar)({
   display: "flex",
@@ -36,6 +38,15 @@ export default function Navbar() {
 
   function handleLogoutClick() {
     localStorage.removeItem("access_token");
+    signOut(auth)
+      .then(() => {
+        // Handle successful sign-out.
+        console.log("User signed out successfully.");
+      })
+      .catch((error) => {
+        // Handle sign-out error.
+        console.log("Error signing out:", error);
+      });
     navigate("/");
   }
 

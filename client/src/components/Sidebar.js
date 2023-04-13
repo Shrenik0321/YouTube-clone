@@ -45,10 +45,26 @@ const Sidebar = () => {
   useEffect(() => {
     async function fetchSubscribedChannels() {
       try {
-        const subscribedChannels = await Axios.post(`/api/user/getsub/${id}`, {
-          id: id,
-        });
-        setSubscribedChannelsList(subscribedChannels.data);
+        const tokenString = localStorage.getItem("access_token");
+        const tokenObject = JSON.parse(tokenString);
+        const fromGoogle = tokenObject.fromGoogle;
+        if (fromGoogle) {
+          const subscribedChannels = await Axios.post(
+            `/api/user/getgooglesub/${id}`,
+            {
+              id: id,
+            }
+          );
+          setSubscribedChannelsList(subscribedChannels.data);
+        } else {
+          const subscribedChannels = await Axios.post(
+            `/api/user/getsub/${id}`,
+            {
+              id: id,
+            }
+          );
+          setSubscribedChannelsList(subscribedChannels.data);
+        }
       } catch (err) {
         console.error(err);
       }

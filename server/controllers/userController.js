@@ -1,6 +1,6 @@
-import { trusted } from "mongoose";
 import { createError } from "../error.js";
 import UserModel from "../models/UserModel.js";
+import GoogleUserModel from "../models/GoogleUserModel.js";
 
 export const updateUsername = async (req, res) => {
   if (req.params.id === req.userId) {
@@ -71,6 +71,41 @@ export const unsubscribe = async (req, res) => {
   try {
     await UserModel.updateOne(
       { _id: req.body.id },
+      { $pull: { subscribedChannels: { $in: [req.body.channelTitle] } } }
+    );
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+export const addsubscribedChannelsGoogle = async (req, res) => {
+  try {
+    const res = await GoogleUserModel.updateOne(
+      { googleId: req.body.id },
+      { $push: { subscribedChannels: req.body.channelTitle } }
+    );
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+export const getsubscribedChannelsGoogle = async (req, res) => {
+  try {
+    const result = await GoogleUserModel.findOne({ googleId: req.body.id });
+    if (result === null) {
+      res.send([]);
+    } else {
+      res.send(result.subscribedChannels);
+    }
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+export const unsubscribeGoogle = async (req, res) => {
+  try {
+    await GoogleUserModel.updateOne(
+      { googleId: req.body.id },
       { $pull: { subscribedChannels: { $in: [req.body.channelTitle] } } }
     );
   } catch (err) {

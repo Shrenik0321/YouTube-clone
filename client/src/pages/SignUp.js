@@ -10,6 +10,8 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import Axios from "../axios.js";
 import { toast } from "react-toastify";
+import { auth, googleProvider } from "../firebase-config/firebase.js";
+import { signInWithPopup, signInWithEmailAndPassword } from "firebase/auth";
 
 export default function SignUp() {
   const [username, setUsername] = useState("");
@@ -38,6 +40,15 @@ export default function SignUp() {
       toast.success("Successfully signed new user!");
     } catch (err) {
       console.error(err.response.data);
+    }
+  }
+
+  async function handleGoogleSignUp() {
+    try {
+      const response = await signInWithPopup(auth, googleProvider);
+      console.log(response);
+    } catch (err) {
+      console.error(err);
     }
   }
 
@@ -106,9 +117,6 @@ export default function SignUp() {
             onClick={handleSignUp}
           >
             Sign up
-          </Button>
-          <Button type="submit" fullWidth variant="contained" sx={{ mb: 2 }}>
-            Sign up with Google
           </Button>
           <Grid container>
             <Grid item xs>

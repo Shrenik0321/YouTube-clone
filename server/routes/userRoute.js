@@ -5,6 +5,9 @@ import {
   addsubscribedChannels,
   getsubscribedChannels,
   unsubscribe,
+  addsubscribedChannelsGoogle,
+  getsubscribedChannelsGoogle,
+  unsubscribeGoogle,
   like,
   dislike,
 } from "../controllers/userController.js";
@@ -28,6 +31,12 @@ router.post("/getsub/:id", getsubscribedChannels);
 //unsubscribe a channel
 // router.post("/unsub/:id", verifyToken, unsubscribe);
 router.post("/unsub/:id", unsubscribe);
+
+router.post("/googlesub/:id", addsubscribedChannelsGoogle);
+
+router.post("/getgooglesub/:id", getsubscribedChannelsGoogle);
+
+router.post("/googleunsub/:id", unsubscribeGoogle);
 
 //like a video
 router.put("/like/:videoId", verifyToken, like);

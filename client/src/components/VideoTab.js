@@ -15,18 +15,38 @@ import { toast } from "react-toastify";
 const VideoTab = ({ video }) => {
   const [subscribeToggle, setSubscribeToggle] = useState(false);
   const { id } = useParams();
+  const tokenString = localStorage.getItem("access_token");
+  const tokenObject = JSON.parse(tokenString);
+  const fromGoogle = tokenObject.fromGoogle;
 
   useEffect(() => {
     async function fetchSubscribedChannels() {
       try {
-        const subscribedChannels = await Axios.post(`/api/user/getsub/${id}`, {
-          id: id,
-        });
-        subscribedChannels.data.map((data) => {
-          if (data === video.snippet.channelTitle) {
-            setSubscribeToggle(true);
-          }
-        });
+        if (fromGoogle) {
+          const subscribedChannels = await Axios.post(
+            `/api/user/getgooglesub/${id}`,
+            {
+              id: id,
+            }
+          );
+          subscribedChannels.data.map((data) => {
+            if (data === video.snippet.channelTitle) {
+              setSubscribeToggle(true);
+            }
+          });
+        } else {
+          const subscribedChannels = await Axios.post(
+            `/api/user/getsub/${id}`,
+            {
+              id: id,
+            }
+          );
+          subscribedChannels.data.map((data) => {
+            if (data === video.snippet.channelTitle) {
+              setSubscribeToggle(true);
+            }
+          });
+        }
       } catch (err) {
         console.error(err);
       }
@@ -37,19 +57,33 @@ const VideoTab = ({ video }) => {
   async function handleSubscribeClick(channel) {
     if (subscribeToggle === false) {
       try {
-        await Axios.post(`/api/user/sub/${id}`, {
-          id: id,
-          channelTitle: channel,
-        });
+        if (fromGoogle) {
+          await Axios.post(`/api/user/googlesub/${id}`, {
+            id: id,
+            channelTitle: channel,
+          });
+        } else {
+          await Axios.post(`/api/user/sub/${id}`, {
+            id: id,
+            channelTitle: channel,
+          });
+        }
       } catch (err) {
         console.error(err);
       }
     } else {
       try {
-        await Axios.post(`/api/user/unsub/${id}`, {
-          id: id,
-          channelTitle: channel,
-        });
+        if (fromGoogle) {
+          await Axios.post(`/api/user/googleunsub/${id}`, {
+            id: id,
+            channelTitle: channel,
+          });
+        } else {
+          await Axios.post(`/api/user/unsub/${id}`, {
+            id: id,
+            channelTitle: channel,
+          });
+        }
       } catch (err) {
         console.error(err);
       }
