@@ -90,6 +90,22 @@ const VideoTab = ({ video }) => {
     }
   }
 
+  async function handleLikeClick() {
+    try {
+      await Axios.post(`/api/user/like/${id}`);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  async function handleDislikeClick() {
+    try {
+      await Axios.post(`/api/user/dislike/${id}`);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   async function handleSubscribeToggle() {
     setSubscribeToggle((prev) => !prev);
     if (subscribeToggle === false) {
@@ -156,6 +172,7 @@ const VideoTab = ({ video }) => {
                     <Box
                       sx={{
                         display: "flex",
+                        gap: 2,
                       }}
                     >
                       {subscribeToggle ? (
@@ -196,7 +213,6 @@ const VideoTab = ({ video }) => {
                           display: "flex",
                           flexDirection: "column",
                           justifyContent: "center",
-                          marginRight: "10px",
                         }}
                       >
                         <ThumbUpIcon
@@ -205,6 +221,7 @@ const VideoTab = ({ video }) => {
                               color: "red",
                             },
                           }}
+                          onClick={handleLikeClick}
                         />
                       </Box>
                       <Box
@@ -212,7 +229,6 @@ const VideoTab = ({ video }) => {
                           display: "flex",
                           flexDirection: "column",
                           justifyContent: "center",
-                          marginRight: "10px",
                         }}
                       >
                         <ThumbDownAltIcon
@@ -221,6 +237,7 @@ const VideoTab = ({ video }) => {
                               color: "red",
                             },
                           }}
+                          onClick={handleDislikeClick}
                         />
                       </Box>
                     </Box>

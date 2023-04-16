@@ -46,7 +46,7 @@ export default function Navbar2() {
             variant="h5"
             sx={{ display: { xs: "none", sm: "block" } }}
           >
-            DeepTube
+            notYouTube
           </Typography>
         </Box>
         <Paper

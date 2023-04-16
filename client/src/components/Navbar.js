@@ -65,7 +65,7 @@ export default function Navbar() {
             variant="h5"
             sx={{ display: { xs: "none", sm: "block" } }}
           >
-            DeepTube
+            notYouTube
           </Typography>
         </Box>
         <Paper
@@ -97,7 +97,7 @@ export default function Navbar() {
           sx={{
             display: "flex",
             justifyContent: "space-between",
-            width: "250px",
+            gap: 2,
           }}
         >
           <AccountCircleIcon sx={{ fontSize: "40px" }} />

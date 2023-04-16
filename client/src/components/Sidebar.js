@@ -6,8 +6,6 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import Divider from "@mui/material/Divider";
-import VideoLibraryIcon from "@mui/icons-material/VideoLibrary";
-import HistoryIcon from "@mui/icons-material/History";
 import HomeIcon from "@mui/icons-material/Home";
 import ExploreIcon from "@mui/icons-material/Explore";
 import SubscriptionsIcon from "@mui/icons-material/Subscriptions";
@@ -22,11 +20,13 @@ import { fetchSearchedVideos } from "../redux/videoSlice.js";
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
-import Typography from "@mui/material/Typography";
 import { useDispatch } from "react-redux";
 import { Button, Grid, Paper } from "@mui/material";
 import Axios from "../axios.js";
 import { useParams } from "react-router-dom";
+import ThumbUpIcon from "@mui/icons-material/ThumbUp";
+import ThumbDownAltIcon from "@mui/icons-material/ThumbDownAlt";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 const Sidebar = () => {
   const { id } = useParams();
@@ -96,7 +96,7 @@ const Sidebar = () => {
               disablePadding
               sx={{
                 "&:hover": {
-                  backgroundColor: "red",
+                  backgroundColor: "rgba(255, 255, 255, 0.2)",
                 },
               }}
             >
@@ -111,7 +111,7 @@ const Sidebar = () => {
               disablePadding
               sx={{
                 "&:hover": {
-                  backgroundColor: "red",
+                  backgroundColor: "rgba(255, 255, 255, 0.2)",
                 },
               }}
             >
@@ -123,7 +123,15 @@ const Sidebar = () => {
               </ListItemButton>
             </ListItem>
             <ListItem disablePadding>
-              <Accordion sx={{ backgroundColor: "black", color: "white" }}>
+              <Accordion
+                sx={{
+                  backgroundColor: "black",
+                  color: "white",
+                  "&:hover": {
+                    backgroundColor: "rgba(255, 255, 255, 0.2)",
+                  },
+                }}
+              >
                 <AccordionSummary>
                   <ListItemIcon>
                     <SubscriptionsIcon sx={{ color: "white" }} />
@@ -146,7 +154,14 @@ const Sidebar = () => {
             </ListItem>
 
             <Divider sx={{ backgroundColor: "white" }} />
-            <ListItem disablePadding>
+            <ListItem
+              disablePadding
+              sx={{
+                "&:hover": {
+                  backgroundColor: "rgba(255, 255, 255, 0.2)",
+                },
+              }}
+            >
               <ListItemButton onClick={handleClick}>
                 <ListItemIcon>
                   <EmojiEventsIcon sx={{ color: "white" }} />
@@ -154,7 +169,14 @@ const Sidebar = () => {
                 <ListItemText primary="Sports" />
               </ListItemButton>
             </ListItem>
-            <ListItem disablePadding>
+            <ListItem
+              disablePadding
+              sx={{
+                "&:hover": {
+                  backgroundColor: "rgba(255, 255, 255, 0.2)",
+                },
+              }}
+            >
               <ListItemButton onClick={handleClick}>
                 <ListItemIcon>
                   <AudiotrackIcon sx={{ color: "white" }} />
@@ -162,7 +184,14 @@ const Sidebar = () => {
                 <ListItemText primary="Music" />
               </ListItemButton>
             </ListItem>
-            <ListItem disablePadding>
+            <ListItem
+              disablePadding
+              sx={{
+                "&:hover": {
+                  backgroundColor: "rgba(255, 255, 255, 0.2)",
+                },
+              }}
+            >
               <ListItemButton onClick={handleClick}>
                 <ListItemIcon>
                   <SportsEsportsIcon sx={{ color: "white" }} value="Gaming" />
@@ -171,7 +200,15 @@ const Sidebar = () => {
               </ListItemButton>
             </ListItem>
             <ListItem disablePadding>
-              <Accordion sx={{ backgroundColor: "black", color: "white" }}>
+              <Accordion
+                sx={{
+                  backgroundColor: "black",
+                  color: "white",
+                  "&:hover": {
+                    backgroundColor: "rgba(255, 255, 255, 0.2)",
+                  },
+                }}
+              >
                 <AccordionSummary>
                   <ListItemIcon>
                     <SmartDisplayIcon sx={{ color: "white" }} />
@@ -186,9 +223,11 @@ const Sidebar = () => {
                     <ListItem onClick={handleClick}>
                       <Button>Mr.Beast</Button>
                     </ListItem>
+                    <Divider sx={{ backgroundColor: "white" }} />
                     <ListItem onClick={handleClick}>
                       <Button>Sidemen</Button>
                     </ListItem>
+                    <Divider sx={{ backgroundColor: "white" }} />
                     <ListItem onClick={handleClick}>
                       <Button>Juice WRLD</Button>
                     </ListItem>
@@ -199,24 +238,63 @@ const Sidebar = () => {
 
             <Divider sx={{ backgroundColor: "white" }} />
             <ListItem disablePadding>
-              <ListItemButton>
-                <ListItemIcon>
-                  <VideoLibraryIcon sx={{ color: "white" }} />
-                </ListItemIcon>
-                <ListItemText primary="Libraries" />
-              </ListItemButton>
+              <Accordion
+                sx={{
+                  backgroundColor: "black",
+                  color: "white",
+                  "&:hover": {
+                    backgroundColor: "rgba(255, 255, 255, 0.2)",
+                  },
+                }}
+              >
+                <AccordionSummary>
+                  <ListItemIcon>
+                    <ThumbUpIcon sx={{ color: "white" }} />
+                  </ListItemIcon>
+                  <ListItemText primary="Liked" />
+                  <ListItemIcon>
+                    <ExpandMoreIcon sx={{ color: "white" }} />
+                  </ListItemIcon>
+                </AccordionSummary>
+                <AccordionDetails>
+                  <List></List>
+                </AccordionDetails>
+              </Accordion>
             </ListItem>
             <ListItem disablePadding>
-              <ListItemButton>
-                <ListItemIcon>
-                  <HistoryIcon sx={{ color: "white" }} />
-                </ListItemIcon>
-                <ListItemText primary="History" />
-              </ListItemButton>
+              <Accordion
+                sx={{
+                  backgroundColor: "black",
+                  color: "white",
+                  "&:hover": {
+                    backgroundColor: "rgba(255, 255, 255, 0.2)",
+                  },
+                }}
+              >
+                <AccordionSummary>
+                  <ListItemIcon>
+                    <ThumbDownAltIcon sx={{ color: "white" }} />
+                  </ListItemIcon>
+                  <ListItemText primary="Disliked" />
+                  <ListItemIcon>
+                    <ExpandMoreIcon sx={{ color: "white" }} />
+                  </ListItemIcon>
+                </AccordionSummary>
+                <AccordionDetails>
+                  <List></List>
+                </AccordionDetails>
+              </Accordion>
             </ListItem>
 
             <Divider sx={{ backgroundColor: "white" }} />
-            <ListItem disablePadding>
+            <ListItem
+              disablePadding
+              sx={{
+                "&:hover": {
+                  backgroundColor: "rgba(255, 255, 255, 0.2)",
+                },
+              }}
+            >
               <ListItemButton>
                 <ListItemIcon>
                   <SettingsIcon sx={{ color: "white" }} />
@@ -224,12 +302,34 @@ const Sidebar = () => {
                 <ListItemText primary="Settings" />
               </ListItemButton>
             </ListItem>
-            <ListItem disablePadding>
+            <ListItem
+              disablePadding
+              sx={{
+                "&:hover": {
+                  backgroundColor: "rgba(255, 255, 255, 0.2)",
+                },
+              }}
+            >
               <ListItemButton>
                 <ListItemIcon>
                   <FlagIcon sx={{ color: "white" }} />
                 </ListItemIcon>
                 <ListItemText primary="Report" />
+              </ListItemButton>
+            </ListItem>
+            <ListItem
+              disablePadding
+              sx={{
+                "&:hover": {
+                  backgroundColor: "rgba(255, 255, 255, 0.2)",
+                },
+              }}
+            >
+              <ListItemButton>
+                <ListItemIcon>
+                  <DeleteIcon sx={{ color: "red" }} />
+                </ListItemIcon>
+                <ListItemText sx={{ color: "red" }} primary="Delete user" />
               </ListItemButton>
             </ListItem>
           </List>

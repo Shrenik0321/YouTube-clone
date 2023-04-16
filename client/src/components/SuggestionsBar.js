@@ -8,8 +8,11 @@ import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
 import { useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
 
 export default function SuggestionsBar() {
+  const { id } = useParams();
+  const navigate = useNavigate();
   const { currentSuggestedSearchValue } = useSelector((state) => state.video);
   const [suggestedVideo, setSuggestedVideo] = useState([]);
   const [suggestedSearch, setSuggestedSearch] = useState("Messi");
@@ -72,6 +75,12 @@ export default function SuggestionsBar() {
                 height: "300px",
                 color: "white",
                 marginBottom: "20px",
+              }}
+              onClick={() => {
+                const videoId = data.id.videoId;
+                navigate(`/video/${id}/${videoId}`, {
+                  state: { video: data },
+                });
               }}
             >
               <CardMedia

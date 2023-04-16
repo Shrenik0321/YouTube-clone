@@ -39,9 +39,11 @@ router.post("/getgooglesub/:id", getsubscribedChannelsGoogle);
 router.post("/googleunsub/:id", unsubscribeGoogle);
 
 //like a video
-router.put("/like/:videoId", verifyToken, like);
+// router.put("/like/:videoId", verifyToken, like);
+router.post("/like/:videoId", like);
 
 //dislike a video
-router.put("/dislike/:videoId", verifyToken, dislike);
+// router.put("/dislike/:videoId", verifyToken, dislike);
+router.post("/dislike/:videoId", dislike);
 
 export default router;

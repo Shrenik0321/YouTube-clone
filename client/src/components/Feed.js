@@ -7,8 +7,7 @@ import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import { fetchFromApi } from "../fetchFromApi.js";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const Feed = () => {
   const [video, setVideo] = useState([]);
@@ -57,7 +56,6 @@ const Feed = () => {
                   component="img"
                   height="194"
                   image={video.snippet.thumbnails.high.url}
-                  alt="Paella dish"
                 />
                 <CardContent>
                   <Typography color="white" sx={{ fontSize: "18px" }}>

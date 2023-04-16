@@ -114,7 +114,7 @@ export const unsubscribeGoogle = async (req, res) => {
 };
 
 export const like = async (req, res) => {
-  res.send("Running!");
+  console.log("like");
   // if (req.params.id === req.userId) {
   //   try {
   //     await UserModel.findByIdAndDelete(req.params.id);
@@ -128,7 +128,7 @@ export const like = async (req, res) => {
 };
 
 export const dislike = async (req, res) => {
-  res.send("Running!");
+  console.log("dislike");
   // if (req.params.id === req.userId) {
   //   try {
   //     await UserModel.findByIdAndDelete(req.params.id);
