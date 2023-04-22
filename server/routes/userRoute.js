@@ -15,35 +15,27 @@ import { verifyToken } from "../verifyToken.js";
 
 const router = express.Router();
 
-//update username
-router.put("/:id", verifyToken, updateUsername);
-
 //delete user
-router.delete("/:id", verifyToken, deleteUser);
+// router.delete("/:id", verifyToken, deleteUser);
+router.delete("/:id", deleteUser);
+// router.delete("/:id", deleteGoogleUser);
 
 //subscribe to a channel
-// router.post("/sub/:id", verifyToken, subscribe);
-router.post("/sub/:id", addsubscribedChannels);
-
-//get subscribed channels
-router.post("/getsub/:id", getsubscribedChannels);
-
-//unsubscribe a channel
-// router.post("/unsub/:id", verifyToken, unsubscribe);
-router.post("/unsub/:id", unsubscribe);
-
+router.post("/sub/:id", verifyToken, addsubscribedChannels);
 router.post("/googlesub/:id", addsubscribedChannelsGoogle);
 
+//get subscribed channels
+router.post("/getsub/:id", verifyToken, getsubscribedChannels);
 router.post("/getgooglesub/:id", getsubscribedChannelsGoogle);
 
+//unsubscribe a channel
+router.post("/unsub/:id", verifyToken, unsubscribe);
 router.post("/googleunsub/:id", unsubscribeGoogle);
 
 //like a video
-// router.put("/like/:videoId", verifyToken, like);
-router.post("/like/:videoId", like);
+// router.post("/like/:videoId",verifyToken, like);
 
 //dislike a video
-// router.put("/dislike/:videoId", verifyToken, dislike);
-router.post("/dislike/:videoId", dislike);
+// router.post("/dislike/:videoId",verifyToken, dislike);
 
 export default router;

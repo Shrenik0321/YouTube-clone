@@ -39,6 +39,7 @@ const VideoTab = ({ video }) => {
             `/api/user/getsub/${id}`,
             {
               id: id,
+              token: tokenObject.token,
             }
           );
           subscribedChannels.data.map((data) => {
@@ -66,6 +67,7 @@ const VideoTab = ({ video }) => {
           await Axios.post(`/api/user/sub/${id}`, {
             id: id,
             channelTitle: channel,
+            token: tokenObject.token,
           });
         }
       } catch (err) {
@@ -82,6 +84,7 @@ const VideoTab = ({ video }) => {
           await Axios.post(`/api/user/unsub/${id}`, {
             id: id,
             channelTitle: channel,
+            token: tokenObject.token,
           });
         }
       } catch (err) {

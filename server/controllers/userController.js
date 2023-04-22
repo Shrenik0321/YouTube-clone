@@ -21,16 +21,12 @@ export const updateUsername = async (req, res) => {
 };
 
 export const deleteUser = async (req, res) => {
-  // if (req.params.id === req.userId) {
-  //   try {
-  //     await UserModel.findByIdAndDelete(req.params.id);
-  //     res.status(200).json("User has been deleted");
-  //   } catch (err) {
-  //     console.error(err);
-  //   }
-  // } else {
-  //   return next(createError(403, "You can delete only your account"));
-  // }
+  try {
+    await UserModel.findByIdAndDelete(req.params.id);
+    res.status(200).json("User has been deleted");
+  } catch (err) {
+    console.error(err);
+  }
 };
 
 export const getUser = async (req, res) => {
@@ -45,8 +41,8 @@ export const getUser = async (req, res) => {
 // Should be improved
 export const addsubscribedChannels = async (req, res) => {
   try {
-    const res = await UserModel.updateOne(
-      { _id: req.body.id },
+    await UserModel.updateOne(
+      { _id: req.userId },
       { $push: { subscribedChannels: req.body.channelTitle } }
     );
   } catch (err) {
@@ -56,7 +52,7 @@ export const addsubscribedChannels = async (req, res) => {
 
 export const getsubscribedChannels = async (req, res) => {
   try {
-    const result = await UserModel.findOne({ _id: req.body.id });
+    const result = await UserModel.findOne({ _id: req.userId });
     if (result === null) {
       res.send([]);
     } else {
@@ -70,7 +66,7 @@ export const getsubscribedChannels = async (req, res) => {
 export const unsubscribe = async (req, res) => {
   try {
     await UserModel.updateOne(
-      { _id: req.body.id },
+      { _id: req.userId },
       { $pull: { subscribedChannels: { $in: [req.body.channelTitle] } } }
     );
   } catch (err) {

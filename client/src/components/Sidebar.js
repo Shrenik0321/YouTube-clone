@@ -23,19 +23,40 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 import { useDispatch } from "react-redux";
 import { Button, Grid, Paper } from "@mui/material";
 import Axios from "../axios.js";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import ThumbDownAltIcon from "@mui/icons-material/ThumbDownAlt";
 import DeleteIcon from "@mui/icons-material/Delete";
+import Modal from "@mui/material/Modal";
+import Typography from "@mui/material/Typography";
+import Stack from "@mui/material/Stack";
 
 const Sidebar = () => {
   const { id } = useParams();
   const [searchButton, setSearchButton] = useState("");
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
   const [subscribedChannelsList, setSubscribedChannelsList] = useState([]);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   function handleClick(e) {
     setSearchButton(e.target.textContent);
+  }
+
+  async function handleDelete() {
+    try {
+      const response = await Axios.delete(`/api/user/${id}`, {
+        id: id,
+      });
+      if (response != null) {
+        localStorage.removeItem("access_token");
+        navigate("/");
+      }
+    } catch (err) {
+      console.error(err);
+    }
   }
 
   useEffect(() => {
@@ -61,6 +82,7 @@ const Sidebar = () => {
             `/api/user/getsub/${id}`,
             {
               id: id,
+              token: tokenObject.token,
             }
           );
           setSubscribedChannelsList(subscribedChannels.data);
@@ -325,12 +347,53 @@ const Sidebar = () => {
                 },
               }}
             >
-              <ListItemButton>
+              <ListItemButton onClick={handleOpen}>
                 <ListItemIcon>
                   <DeleteIcon sx={{ color: "red" }} />
                 </ListItemIcon>
                 <ListItemText sx={{ color: "red" }} primary="Delete user" />
               </ListItemButton>
+              <Modal
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+              >
+                <Box
+                  sx={{
+                    backgroundColor: "black",
+                    color: "white",
+                    position: "absolute",
+                    top: "50%",
+                    left: "50%",
+                    transform: "translate(-50%, -50%)",
+                    width: 400,
+                    border: "2px solid #000",
+                    boxShadow: 24,
+                    p: 4,
+                  }}
+                >
+                  <Typography
+                    id="modal-modal-title"
+                    variant="h6"
+                    component="h2"
+                  >
+                    Are you sure you want to Delete user?
+                  </Typography>
+                  <Stack
+                    direction="row"
+                    spacing={2}
+                    sx={{ mt: 5, justifyContent: "center" }}
+                  >
+                    <Button variant="contained" onClick={handleDelete}>
+                      Confirm
+                    </Button>
+                    <Button variant="outlined" onClick={handleClose}>
+                      Cancel
+                    </Button>
+                  </Stack>
+                </Box>
+              </Modal>
             </ListItem>
           </List>
         </Paper>
